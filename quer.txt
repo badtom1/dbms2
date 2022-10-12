@@ -1,0 +1,11 @@
+select p.* from patient p ,doctor d,checks t where p.pssn=t.pssn and t.dssn=d.dssn and p.age>20 and d.speciality="opthalmologist";
+
+select d.* , count(p.dssn) as patient_prescribe from doctor d, prescribe p where d.dssn=p.dssn and year(p.date) like "2013%" group by p.dssn having count(p.dssn)>=5;
+
+select * from doctor where experience=(select max(experience) from doctor);
+
+select pc.*,  count(c.pcname) as no_of_companies from pharma_co pc,pharmacy ph,contract c where ph.phname=c.phname and pc.pcname=c.pcname and ph.phaddr=pc.pcaddr group by c.pcname having count(c.pcname)>=5;
+
+ select d.* ,count(s.phname) as no_of_comapnies from  drug d,sell s, pharma_co pc where d.tradename = s.tradename and pc.pcname = d.pcname group by (s.tradename) having count(s.tradename)=1;
+ 
+ select d.*, count(s.phname ) as no_of_companies from drug d, sell s,pharma_co p where d.tradename = s.tradename and p.pcname=d.pcname group by (s.tradename) having count(s.tradename)=(select count(*) from pharmacy);
